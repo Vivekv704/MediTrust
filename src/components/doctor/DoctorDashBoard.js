@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import NavBar_Logout from "./NavBar_Logout";
-import DoctorRegistration from "../build/contracts/DoctorRegistration.json";
+import NavBar_Logout from "../NavBar_Logout";
+import DoctorRegistration from "../../build/contracts/DoctorRegistration.json";
 
 const DoctorDashBoardPage = () => {
   const { hhNumber } = useParams();
@@ -18,6 +18,14 @@ const DoctorDashBoardPage = () => {
 
   const viewDoctorProfile = () => {
     navigate("/doctor/"+hhNumber+"/viewdoctorprofile");
+  };
+
+  const viewReport = () => {
+    navigate("/doctor/"+hhNumber+"/viewreport");
+  };
+
+  const addPrescription = () => {
+    navigate("/doctor/"+hhNumber+"/addprescription");
   };
 
   useEffect(() => {
@@ -61,6 +69,7 @@ const DoctorDashBoardPage = () => {
             <span className="font-bold text-yellow-500">{doctorDetails[1]}!</span>
           </p>
         )}
+        {/* Buttons Section */}
       <div className="space-y-4 space-x-4">
         <button
           onClick={viewDoctorProfile}
@@ -75,7 +84,20 @@ const DoctorDashBoardPage = () => {
       >
         View Patient List
         </button>
-      
+       {/* View Reports */}
+        <button
+        onClick={viewReport}
+        className="px-6 py-3 bg-teal-500 hover-bg-gray-600 text-white rounded-lg focus:outline-none focus:ring focus:ring-teal-400 transition duration-300"
+      >
+        View Reports
+        </button>
+      {/* Add Prescription */}
+        <button
+        onClick={addPrescription}
+        className="px-6 py-3 bg-teal-500 hover-bg-gray-600 text-white rounded-lg focus:outline-none focus:ring focus:ring-teal-400 transition duration-300"
+      >
+        Add Prescription
+        </button>
       </div>
       </div>
       </div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import NavBar_Logout from "./NavBar_Logout";
-import PatientRegistration from "../build/contracts/PatientRegistration.json";
+import NavBar_Logout from "../NavBar_Logout";
+import PatientRegistration from "../../build/contracts/PatientRegistration.json";
 
 const DoctorViewPatient = () => {
   const { hhNumber } = useParams(); // Retrieve the hhNumber from the URL parameter

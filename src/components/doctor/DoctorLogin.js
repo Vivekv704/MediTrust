@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import Web3 from "web3";
-import PatientRegistration from "../build/contracts/PatientRegistration.json";
+import DoctorRegistration from "../../build/contracts/DoctorRegistration.json";
 import { useNavigate } from "react-router-dom";
-import "../CSS/DoctorLoginPage.css";
-import NavBar from "./NavBar";
+import "../../CSS/DoctorLoginPage.css";
+import NavBar from "../NavBar";
 
-const PatientLogin = () => {
+const DoctorLogin = () => {
   const navigate = useNavigate();
   const [hhNumberError, sethhNumberError] = useState("");
   const [hhNumber, sethhNumber] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
-  const [doctorDetails, setPatientDetails] = useState(null);
+  const [doctorDetails, setDoctorDetails] = useState(null);
 
   const handlehhNumberChange = (e) => {
     const inputhhNumber = e.target.value;
@@ -29,14 +29,14 @@ const PatientLogin = () => {
     try {
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = PatientRegistration.networks[networkId];
+      const deployedNetwork = DoctorRegistration.networks[networkId];
       const contract = new web3.eth.Contract(
-        PatientRegistration.abi,
+        DoctorRegistration.abi,
         deployedNetwork && deployedNetwork.address
       );
 
       const isRegisteredResult = await contract.methods
-        .isRegisteredPatient(hhNumber)
+        .isRegisteredDoctor(hhNumber)
         .call();
       setIsRegistered(isRegisteredResult);
 
@@ -47,15 +47,15 @@ const PatientLogin = () => {
 
         if (isValidPassword) {
           const doctor = await contract.methods
-            .getPatientDetails(hhNumber)
+            .getDoctorDetails(hhNumber)
             .call();
-          setPatientDetails(doctor);
-          navigate("/patient/" + hhNumber);
+          setDoctorDetails(doctor);
+          navigate("/doctor/" + hhNumber);
         } else {
           alert("Incorrect password");
         }
       } else {
-        alert("Patient not registered");
+        alert("Doctor not registered");
       }
     } catch (error) {
       console.error("Error checking registration:", error);
@@ -72,7 +72,7 @@ const PatientLogin = () => {
       <NavBar />
       <div className="bg-gradient-to-b from-black to-gray-800 min-h-screen flex flex-col justify-center items-center p-4 font-mono text-white">
         <div className="w-full max-w-4xl bg-gray-900 p-20 rounded-lg shadow-lg">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Patient Login</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Doctor Login</h2>
           <div className="mb-4">
             <label className="block font-bold text-white" htmlFor="hhNumber">
               HH Number
@@ -104,13 +104,14 @@ const PatientLogin = () => {
             />
           </div>
           <div className="space-x-4 text-center mt-6">
+
           <button
             onClick={handleCheckRegistration}
             className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
           >
             Login
-            </button>
-            <button
+          </button>
+          <button
               onClick={cancelOperation}
               className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
               >
@@ -123,4 +124,4 @@ const PatientLogin = () => {
   );
 };
 
-export default PatientLogin;
+export default DoctorLogin;

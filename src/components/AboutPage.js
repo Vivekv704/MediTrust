@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/./AboutUs.css";
+import '../../src/CSS/AboutUs.css';
 import NavBar from "./NavBar";
-import hospitalImage from "../images/hospital.png"; // Import the hospital image
+import hospitalImage from '../../src/images/hospital.png'; 
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const AboutUs = () => {
       <NavBar />
       <div className="hospital-image-container">
         <img
-          src={hospitalImage} // Use the imported hospital image
+          src={hospitalImage} 
           alt="Hospital"
           className="hospital-image"
         />

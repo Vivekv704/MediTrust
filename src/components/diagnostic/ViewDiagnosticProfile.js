@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import DiagnosticRegistration from "../build/contracts/DiagnosticRegistration.json";
+import DiagnosticRegistration from "../../build/contracts/DiagnosticRegistration.json";
 import Web3 from "web3";
 import { useNavigate, useParams } from "react-router-dom";
-import "../CSS/PatientWritePermission.css";
-import "../big_css/CreateEHR.css";
-import NavBar_Logout from "./NavBar_Logout";
+import "../../CSS/PatientWritePermission.css";
+import '../../big_css/CreateEHR.css';
+import NavBar_Logout from "../NavBar_Logout";
 
 const ViewDiagnosticProfile = () => {
   const { hhNumber } = useParams();

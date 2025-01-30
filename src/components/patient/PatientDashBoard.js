@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
-import "../CSS/PatientDashBoard.css";
-import NavBar_Logout from "./NavBar_Logout";
-import PatientRegistration from "../build/contracts/PatientRegistration.json";
+import "../../CSS/PatientDashBoard.css";
+import NavBar_Logout from "../NavBar_Logout";
+import PatientRegistration from "../../build/contracts/PatientRegistration.json";
 
 const PatientDashBoard = () => {
   const { hhNumber } = useParams(); // Retrieve the hhNumber from the URL parameter
@@ -18,6 +18,14 @@ const PatientDashBoard = () => {
     navigate("/patient/" + hhNumber + "/viewprofile");
   };
   
+  const uploadReport = () => {
+    navigate("/patient/" + hhNumber + "/uploadreport");
+  };
+
+  const grantPermission = () => {
+    navigate("/patient/" + hhNumber + "/grantpermission");
+  };
+
 
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
@@ -66,21 +74,39 @@ const PatientDashBoard = () => {
             <span className="font-bold text-yellow-500">{patientDetails.name}!</span>
           </p>
         )}
-        <div className="flex flex-wrap justify-center gap-5 w-full px-4 sm:px-0">
-          <button
-            onClick={viewprofile}
-            className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-          >
-            View Profile
-          </button>
-          <button
-            onClick={viewRecord}
-            className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-          >
-            View Record
-          </button>
 
-        </div>
+       {/* Button Section */}
+<div className="flex flex-col-2  justify-center gap-5 w-full px-4 sm:px-0">
+  <button
+    onClick={viewprofile}
+    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+  >
+    View Profile
+  </button>
+  <button
+    onClick={viewRecord}
+    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+  >
+    View Record
+  </button>
+
+  {/* Upload Reports */}
+  <button
+    onClick={uploadReport}
+    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+  >
+    Upload Reports
+  </button>
+
+  {/* Grant Permission */}
+  <button
+    onClick={grantPermission}
+    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+  >
+    Grant Permission
+  </button>
+</div>
+
       </div>
     </div>
   );

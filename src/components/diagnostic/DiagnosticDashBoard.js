@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { useParams, useNavigate } from "react-router-dom";
-import NavBar_Logout from "./NavBar_Logout";
-import DiagnosticRegistration from "../build/contracts/DiagnosticRegistration.json";
+import NavBar_Logout from "../NavBar_Logout";
+import DiagnosticRegistration from './DiagnosticsRegistration'
 
 const DiagnosticDashBoard = () => {
   const { hhNumber } = useParams();
@@ -17,6 +17,14 @@ const DiagnosticDashBoard = () => {
 
   const viewDiagnosticProfile = () => {
     navigate("/diagnostic/"+hhNumber+"/viewdiagnosticprofile");
+  };
+
+  const viewReport = () => {
+    navigate("/diagnostic/"+hhNumber+"/viewreport");
+  };
+
+  const shareReport = () => {
+    navigate("/diagnostic/"+hhNumber+"/sharereport");
   };
 
   useEffect(() => {
@@ -72,6 +80,20 @@ const DiagnosticDashBoard = () => {
             className="px-6 py-3 bg-teal-500 hover:bg-gray-600 text-white rounded-lg focus:outline-none focus:ring focus:ring-teal-400 transition duration-300"
           >
             Create Report
+          </button>
+         {/* View Records */}
+          <button
+            onClick={viewReport}
+            className="px-6 py-3 bg-teal-500 hover:bg-gray-600 text-white rounded-lg focus:outline-none focus:ring focus:ring-teal-400 transition duration-300"
+          >
+            View Report
+          </button>
+          
+          <button
+            onClick={shareReport}
+            className="px-6 py-3 bg-teal-500 hover:bg-gray-600 text-white rounded-lg focus:outline-none focus:ring focus:ring-teal-400 transition duration-300"
+          >
+            Share Report
           </button>
           
         </div>

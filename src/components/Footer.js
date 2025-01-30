@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <div className="p-6 text-white bg-gray-800 ">
       <div className="container mx-auto">
-        <div className="flex items-start justify-between mb-6 mt-60">
+        <div className="flex items-start justify-between mb-6 mt-12">
           {/* Contact Information */}
           <div className="w-1/3">
             <h3 className="mb-2 text-xl font-bold">Contact Information</h3>

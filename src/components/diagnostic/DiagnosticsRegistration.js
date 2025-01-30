@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
-import DiagnosticRegistration from "../build/contracts/DiagnosticRegistration.json";
+import DiagnosticRegistration from "../../build/contracts/DiagnosticRegistration.json";
 import { useNavigate } from "react-router-dom";
-import "../CSS/DoctorRegistration.css";
-import NavBar from "./NavBar";
+import '../../CSS/DoctorRegistration.css'
+import NavBar from "../NavBar";
 
 const DiagnosticRegistry = () => {
   const [web3, setWeb3] = useState(null);
