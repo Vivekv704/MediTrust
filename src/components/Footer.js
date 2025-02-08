@@ -8,26 +8,25 @@ import {
 
 const Footer = () => {
   return (
-    <div className="p-6 text-white bg-gray-800 ">
+    <div className="p-6 text-white bg-gray-800">
       <div className="container mx-auto">
         <div className="flex items-start justify-between mb-6 mt-12">
           {/* Contact Information */}
-          <div className="w-1/3">
+          <div className="w-1/4">
             <h3 className="mb-2 text-xl font-bold">Contact Information</h3>
             <p>
-              <span className="font-bold">Address:</span> 123 Street, City,
-              Country
+              <span className="font-bold">Address:</span> 123 Street, City
             </p>
             <p>
               <span className="font-bold">Phone:</span> +123 456 7890
             </p>
             <p>
-              <span className="font-bold">Email:</span> vivek@company.com
+              <span className="font-bold">Email:</span> DHD@company.com
             </p>
           </div>
 
           {/* Useful Links */}
-          <div className="w-1/3">
+          <div className="w-1/4">
             <h3 className="mb-2 text-xl font-bold">Useful Links</h3>
             <ul className="space-y-2">
               <li>
@@ -52,7 +51,9 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="w-1/3">
+
+          {/* Other Links */}
+          <div className="w-1/4">
             <h3 className="mb-2 text-xl font-bold">Other Links</h3>
             <ul className="space-y-2">
               <li>
@@ -84,29 +85,33 @@ const Footer = () => {
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex items-center justify-end w-1/3">
+          <div className="flex flex-col items-center justify-center w-1/4">
             <a
               href="https://instagram.com/"
-              className="mr-4"
+              className="flex items-center mb-4"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faInstagram} size="2x" />
+              <FontAwesomeIcon icon={faInstagram} size="2x" className="mr-2" />
+              <span className="text-lg font-semibold text-gray-200">Instagram</span>
             </a>
             <a
               href="https://facebook.com/"
-              className="mr-4"
+              className="flex items-center mb-4"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faFacebookF} size="2x" />
+              <FontAwesomeIcon icon={faFacebookF} size="2x" className="mr-2" />
+              <span className="text-lg font-semibold text-gray-200">Facebook</span>
             </a>
             <a
-              href="www.linkedin.com/in/vivek-gupta4577"
+              href="https://www.linkedin.com/in/vivek-gupta4577"
+              className="flex items-center"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FontAwesomeIcon icon={faLinkedinIn} size="2x" />
+              <FontAwesomeIcon icon={faLinkedinIn} size="2x" className="mr-2" />
+              <span className="text-lg font-semibold text-gray-200">LinkedIn</span>
             </a>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PatientRegistration from "../build/contracts/PatientRegistration.json";
+import PatientRegistration from "../../build/contracts/PatientRegistration.json";
 import Web3 from "web3";
 import { useNavigate, useParams } from "react-router-dom";
-import "../CSS/PatientWritePermission.css";
-import "../big_css/CreateEHR.css";
-import NavBar_Logout from "./NavBar_Logout";
+import "../../CSS/PatientWritePermission.css";
+import "../../big_css/CreateEHR.css";
+import NavBar_Logout from "../NavBar_Logout";
 
 
 const ViewProfile = () => {
@@ -66,7 +66,7 @@ const ViewProfile = () => {
     fetchPatientDetails();
   }, [contract, hhNumber]);
 
-
+  // Cancel Operation
   const cancelOperation = async () => {
     try {
     navigate("/patient/"+hhNumber);

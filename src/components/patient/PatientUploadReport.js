@@ -1,7 +1,31 @@
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 import NavBar_Logout from '../NavBar_Logout';
+import Web3 from 'web3';
+
 
 function PatientUploadReport() {
+
+  // User Data
+  const[reportName , setReportName] = useState('');
+  const[reportFile , setReportFile] = useState('');
+  const[additionalInformation , setAdditionalInformation] = useState('');
+
+  // Setting up web3
+  const[web3  , setWeb3] = useState('')
+  const[account , setAccount] = useState('')
+  const[network , setNetwork] = useState('')
+
+
+  // useEffect(() => {
+  //    const init = async () => {
+  //       if(Web3.etherem) {
+  //       const Web3instance = new 
+  // }
+  //    }
+
+  //    init();
+  // } , [])
+
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       <NavBar_Logout />
@@ -19,6 +43,8 @@ function PatientUploadReport() {
                 type="text"
                 placeholder="Enter Title Here..."
                 className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                value={reportName}
+                onChange={(e) = setReportName(e.target.value)}
                 required
               />
             </div>
@@ -29,6 +55,8 @@ function PatientUploadReport() {
                 id="report"
                 type="file"
                 className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                value={reportFile}
+                onChange={setReportFile(e.target.file[0])}
                 required
               />
             </div>
@@ -40,6 +68,8 @@ function PatientUploadReport() {
                 type="text"
                 placeholder="Details..."
                 className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                value={additionalInformation}
+                onChange={(e) = setAdditionalInformation(e.target.value)}
               />
             </div>
 

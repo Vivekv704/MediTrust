@@ -17,7 +17,7 @@ import Footer from "./components/Footer";
 import LandingPage_1 from "./components/LandingPage_1";
 import ViewPatientRecords from "./components/patient/ViewPatientRecords";
 import ViewPatientList from "./components/patient/ViewPatientList";
-import ViewProfile from "./components/ViewProfile";
+import ViewProfile from "./components/patient/ViewProfile";
 import ViewDoctorProfile from "./components/doctor/ViewDoctorProfile";
 import ViewDiagnosticProfile from "./components/diagnostic/ViewDiagnosticProfile";
 import AboutUs from "./components/AboutPage"; 
@@ -29,6 +29,7 @@ import DoctorAddPrescription from './components/doctor/DoctorAddPrescription'
 import DiagnosticShareReport from './components/diagnostic/DiagnosticShareReport'
 import DiagnosticViewReport from "./components/diagnostic/DiagnosticViewReport";
 
+import Layout from "./Layer.js";
 
 const BrowseRouter = () => {
   const [web3, setWeb3] = useState(null);
@@ -36,31 +37,33 @@ const BrowseRouter = () => {
   const [accounts, setAccounts] = useState([]);
   const [loggedInPatient, setLoggedInPatient] = useState(false);
 
-  useEffect(() => {
-    const init = async () => {
-      if (window.ethereum) {
-        const web3Instance = new Web3(window.ethereum);
-        try {
-          await window.ethereum.enable();
-          setWeb3(web3Instance);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     if (window.ethereum) {
+  //       const web3Instance = new Web3(window.ethereum);
+  //       try {
+  //         await window.ethereum.enable();
+  //         setWeb3(web3Instance);
 
-          const fetchedAccounts = await web3Instance.eth.getAccounts();
-          setAccounts(fetchedAccounts);
-        } catch (error) {
-          console.error("User denied access to accounts.");
-        }
-      } else {
-        console.log("Please install MetaMask extension");
-      }
-    };
+  //         const fetchedAccounts = await web3Instance.eth.getAccounts();
+  //         setAccounts(fetchedAccounts);
+  //       } catch (error) {
+  //         console.error("User denied access to accounts.");
+  //       }
+  //     } else {
+  //       console.log("Please install MetaMask extension");
+  //     }
+  //   };
 
-    init();
-  }, []);
+  //   init();
+  // }, []);
+ 
   return (
+ 
     <BrowserRouter>
-
+        <Layout>
       <Routes>
-
+      
         {/* Route Pages */}
       <Route path="/" element={<LandingPage_1></LandingPage_1>}></Route>
       <Route path="/AboutPage" element={<AboutUs></AboutUs>}></Route>
@@ -120,11 +123,14 @@ const BrowseRouter = () => {
 
          {/* For any invalid path */}
        <Route path="*" element={<NotFound />}></Route>
-       
+     
       </Routes>
+      </Layout>
         {/* This is Footer */}
       <Footer></Footer>
+
     </BrowserRouter>
+    
   );
 };
 

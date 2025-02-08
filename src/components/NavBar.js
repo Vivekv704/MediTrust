@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from './assests/logo_new.jpg'
+import TranslateComponent from "./TranslateComponent";
+
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const NavBar = () => {
               className="text-2xl sm:text-3xl lg:text-4xl font-semibold cursor-pointer"
               onClick={() => navigate("/")}
             >
-              Secure Electronic Health Records
+              Decentralized Health Data
             </span>
           </div>
 
@@ -39,9 +41,9 @@ const NavBar = () => {
             </button>
             <button
               className="text-lg px-3 py-1.5 rounded-md font-medium transition-transform duration-300 ease-in-out transform hover:scale-110"
-              onClick={() => navigate("/AboutPage")}
+              onClick={() => navigate("/login")}
             >
-              About Us
+              Login
             </button>
             <button
               className="text-lg px-3 py-1.5 rounded-md font-medium transition-transform duration-300 ease-in-out transform hover:scale-110"
@@ -51,10 +53,14 @@ const NavBar = () => {
             </button>
             <button
               className="text-lg px-3 py-1.5 rounded-md font-medium transition-transform duration-300 ease-in-out transform hover:scale-110"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/AboutPage")}
             >
-              Login
+              About Us
             </button>
+
+            <div>
+            <TranslateComponent />
+            </div>
           </div>
         </div>
       </div>

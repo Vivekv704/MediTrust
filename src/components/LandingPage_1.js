@@ -1,40 +1,63 @@
-import React from "react";
-import NavBar_Logout from "./NavBar_Logout";
+import React, { useState } from "react";
+import NavBar from "./NavBar";
 
-function PatientGrantPermission() {
-  // For Testing
-  const doctors = [
-    { hhNumber: "HH0001" },
-    { hhNumber: "HH0002" },
-    { hhNumber: "HH0003" },
-  ];
+
+import lp_10 from '../images/lp_10.png'
+import lp_11 from '../images/lp_11.png'
+import lp_12 from '../images/lp_14.png'
+
+function LandingPage() {
+  const [isHovered, setIsHovered] = useState(false);
+  function onEnter() {
+    setIsHovered(true);
+  }
+  function onLeave() {
+    setIsHovered(false);
+  }
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
-      <NavBar_Logout />
-      <div className="flex flex-col items-center justify-center min-h-screen space-y-6 p-6">
-        {/* Header Section */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-semibold text-custom-blue">
-            Grant Access to These Doctors
-          </h1>
-          <h4 className="text-lg font-light text-gray-300">
-            They will be able to see all your reports
-          </h4>
-        </div>
-
-        {/* Doctor Access List */}
-        <div className="flex flex-col space-y-4 w-full max-w-3xl bg-gray-800 p-6 rounded-lg shadow-md">
-          {/* Input Section */}
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              placeholder="Enter the hh number here..."
-              className="p-5 bg-gray-700 text-white rounded-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+    <div>
+        <NavBar></NavBar>
+      <div className="flex items-center justify-center h-[650px] font-sans text-white bg-gray-900 mt-12 mx-6">
+        <div
+          className="w-[1200px] h-[600px] flex p-6"
+          onMouseEnter={() => setTimeout(onEnter, 500)}
+          onMouseHover={() => setTimeout(onLeave, 700)}
+          onMouseLeave={() => setTimeout(onLeave, 600)}
+        >
+          {/* Image */}
+          <div className="relative flex-grow overflow-hidden transition-transform ease-in-out transform duration-10000">
+          <img
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-10000 ease-in-out ${
+                !isHovered ? "opacity-100" : "opacity-0"
+              }`}
+              src={lp_10}
+              alt="Landing page illustration"
             />
-            <button className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors duration-200">
-              Add
-            </button>
+            <img
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-10000 ease-in-out ${
+                isHovered ? "opacity-100" : "opacity-0"
+              }`}
+              src={lp_11}
+              alt="Landing page illustration"
+            />
+             <img
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-10000 ease-in-out ${
+                !isHovered ? "opacity-100" : "opacity-0"
+              }`}
+              src={lp_12}
+              alt="Landing page illustration"
+            />
+            
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col w-2/5 p-8 ml-4 space-y-8 transition-transform ease-in-out transform bg-gray-800 rounded-lg shadow-lg text-custom-blue duration-10000 hover:scale-105">
+            <div className="space-y-4">
+              <p className="font-mono text-lg">
+              The Secure Health Data exchange Records App is revolutionizing EHR management by leveraging blockchain technology. Utilizing key components such as blockchain for secure and transparent data storage, Ganache for rapid development, Metamask for seamless blockchain interaction, and IPFS desktop for decentralized file storage, It ensures enhanced security, improved accessibility, data interoperability, and trust. By adopting this innovative approach, It aims to transform healthcare data management, leading to better patient outcomes and improved healthcare delivery.
+                </p>
+            </div>
           </div>
         </div>
       </div>
@@ -42,4 +65,4 @@ function PatientGrantPermission() {
   );
 }
 
-export default PatientGrantPermission;
+export default LandingPage;

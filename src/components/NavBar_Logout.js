@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./assests/logo_new.jpg";
+import TranslateComponent from "./TranslateComponent";
+
 
 const NavBar_Logout = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
   return (
     <nav className="bg-black text-white h-[100px]">
@@ -25,7 +27,7 @@ const NavBar_Logout = () => {
               className="text-2xl sm:text-3xl lg:text-4xl font-semibold cursor-pointer"
               onClick={() => navigate("/")}
             >
-              Secure Electronic Health Records
+             Health Data Sharing
             </span>
           </div>
 
@@ -37,6 +39,10 @@ const NavBar_Logout = () => {
             >
               Logout
             </button>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:space-x-4 mt-4 sm:mt-0">
+              <TranslateComponent />
           </div>
         </div>
       </div>
