@@ -25,6 +25,12 @@ const PatientDashBoard = () => {
   const grantPermission = () => {
     navigate("/patient/" + hhNumber + "/grantpermission");
   };
+  const nearByHospital = () => {
+    navigate("/patient/" + hhNumber + "/near-by-hospital");
+  };
+  const nearByClinic = () => {
+    navigate("/patient/" + hhNumber + "/near-by-clinic");
+  };
 
 
   const [web3, setWeb3] = useState(null);
@@ -75,37 +81,53 @@ const PatientDashBoard = () => {
           </p>
         )}
 
-       {/* Button Section */}
-<div className="flex flex-col-2  justify-center gap-5 w-full px-4 sm:px-0">
-  <button
-    onClick={viewprofile}
-    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-  >
-    View Profile
-  </button>
-  <button
-    onClick={viewRecord}
-    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-  >
-    View Record
-  </button>
+    {/* Button Section */}
+<div className="w-full px-4 sm:px-0">
+  {/* First Row */}
+  <div className="flex flex-col sm:flex-row justify-center gap-5 mb-5">
+    <button
+      onClick={viewprofile}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      View Profile
+    </button>
+    <button
+      onClick={viewRecord}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      View Record
+    </button>
+    <button
+      onClick={uploadReport}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      Upload Reports
+    </button>
+  </div>
 
-  {/* Upload Reports */}
-  <button
-    onClick={uploadReport}
-    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-  >
-    Upload Reports
-  </button>
-
-  {/* Grant Permission */}
-  <button
-    onClick={grantPermission}
-    className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
-  >
-    Grant Permission
-  </button>
+  {/* Second Row */}
+  <div className="flex flex-col sm:flex-row justify-center gap-5">
+    <button
+      onClick={grantPermission}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      Grant Permission
+    </button>
+    <button
+      onClick={nearByHospital}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      Find Nearby Hospitals
+    </button>
+    <button
+      onClick={nearByClinic}
+      className="my-2 px-4 sm:px-8 py-4 sm:py-5 w-full sm:w-1/4 rounded-lg bg-teal-500 hover:bg-gray-600 transition-colors duration-300"
+    >
+      Find Nearby Clinic
+    </button>
+  </div>
 </div>
+{/* Button Section Ends*/}
 
       </div>
     </div>

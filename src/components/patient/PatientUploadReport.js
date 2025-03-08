@@ -1,91 +1,116 @@
-import React , { useEffect, useState } from 'react';
-import NavBar_Logout from '../NavBar_Logout';
-import Web3 from 'web3';
+import { useState } from "react";
+import axios from "axios";
+import NavBar from "../NavBar";
 
+const PatientFileUpload = () => {
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("No image selected");
+  const [title, setTitle] = useState(""); // Added state for title
+  const account = true; // Ensure you have account logic if needed
 
-function PatientUploadReport() {
+  // Function to handle file selection
+  const retrieveFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFile(file);
+      setFileName(file.name);
+    }
+  };
 
-  // User Data
-  const[reportName , setReportName] = useState('');
-  const[reportFile , setReportFile] = useState('');
-  const[additionalInformation , setAdditionalInformation] = useState('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Setting up web3
-  const[web3  , setWeb3] = useState('')
-  const[account , setAccount] = useState('')
-  const[network , setNetwork] = useState('')
+    if (file && title) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
 
+        // Upload to Pinata
+        const resFile = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+            pinata_api_key: "c1c8e0ad3d3057fe5599",
+            pinata_secret_api_key: "e79fd72794580cb99f49a04922c3997438f95d0476f948deddde12e1429736b2", // Use environment variables
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-  // useEffect(() => {
-  //    const init = async () => {
-  //       if(Web3.etherem) {
-  //       const Web3instance = new 
-  // }
-  //    }
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
-  //    init();
-  // } , [])
+        // Send hash to your server
+        try {
+          const response = await axios.post("http://localhost:5000/api/patient/upload-report", {
+            title: title,
+            imgHash: ImgHash,
+          });
+          alert("Successfully Image Uploaded");
+
+          // Reset states after submission
+          setFileName("No image selected");
+          setFile(null);
+          setTitle(""); // Reset title
+        } catch (error) {
+          alert("File could not be added. Please Try Again");
+        }
+      } catch (e) {
+        alert("Unable to upload image to Pinata");
+      }
+    } else {
+      alert("Please enter a title and select a file.");
+    }
+  };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
-      <NavBar_Logout />
-      <div className="flex flex-col items-center justify-start min-h-screen space-y-8 p-6">
-        {/* Form Section */}
-        <div className="w-full max-w-lg bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-semibold text-custom-blue text-center mb-6">Upload Report</h1>
+    <div>
+      <NavBar />
+      <div className="bg-gray-900 text-white min-h-screen mt-12">
+        <div className="flex flex-col items-center justify-start min-h-screen space-y-8 p-6">
+          {/* Form Section */}
+          <div className="w-full max-w-lg bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h1 className="text-3xl font-semibold text-teal-500 text-center mb-6">Upload Patient Report</h1>
 
-          {/* Form Fields */}
-          <form className="space-y-4">
-            <div>
-              <label className="block text-lg font-medium text-gray-300 mb-2" htmlFor="name">Report Name *</label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Enter Title Here..."
-                className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                value={reportName}
-                onChange={(e) = setReportName(e.target.value)}
-                required
-              />
-            </div>
+            {/* Form Fields */}
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="block text-lg font-medium text-gray-300 mb-4">Title</label>
+                <input
+                  type="text"
+                  placeholder="Enter the Title of the File"
+                  value={title} 
+                  onChange={(e) => setTitle(e.target.value)} 
+                  className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+                <label className="block text-lg font-medium text-gray-300 mb-4 mt-4" htmlFor="file-upload">
+                  Choose Report
+                </label>
+                <input
+                  disabled={!account}
+                  type="file"
+                  id="file-upload"
+                  name="data"
+                  onChange={retrieveFile}
+                  className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+                {/* <span className="text-white mt-2">Image: {fileName}</span> */}
+              </div>
 
-            <div>
-              <label className="block text-lg font-medium text-gray-300 mb-2" htmlFor="report">Report File *</label>
-              <input
-                id="report"
-                type="file"
-                className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                value={reportFile}
-                onChange={setReportFile(e.target.file[0])}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-lg font-medium text-gray-300 mb-2" htmlFor="additional-info">Additional Information</label>
-              <input
-                id="additional-info"
-                type="text"
-                placeholder="Details..."
-                className="w-full p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                value={additionalInformation}
-                onChange={(e) = setAdditionalInformation(e.target.value)}
-              />
-            </div>
-
-            <div className="text-center">
-              <button
-                type="submit"
-                className="px-8 py-4 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              >
-                Add
-              </button>
-            </div>
-          </form>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 mt-4"
+                  disabled={!file || !title} // Disable if no file or title is provided
+                >
+                  Upload File
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default PatientUploadReport;
+export default PatientFileUpload;

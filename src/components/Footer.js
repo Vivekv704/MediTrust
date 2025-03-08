@@ -9,6 +9,7 @@ import {
 const Footer = () => {
   return (
     <div className="p-6 text-white bg-gray-800">
+      <hr className="mt-6" />
       <div className="container mx-auto">
         <div className="flex items-start justify-between mb-6 mt-12">
           {/* Contact Information */}

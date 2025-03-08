@@ -28,6 +28,9 @@ import DoctorViewRecord from './components/doctor/DoctorViewReport'
 import DoctorAddPrescription from './components/doctor/DoctorAddPrescription'
 import DiagnosticShareReport from './components/diagnostic/DiagnosticShareReport'
 import DiagnosticViewReport from "./components/diagnostic/DiagnosticViewReport";
+import NearByHospital from './components/NearByHospital.jsx'
+import NearByClinic from './components/NearByClinic.jsx'
+
 
 import Layout from "./Layer.js";
 
@@ -37,26 +40,26 @@ const BrowseRouter = () => {
   const [accounts, setAccounts] = useState([]);
   const [loggedInPatient, setLoggedInPatient] = useState(false);
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     if (window.ethereum) {
-  //       const web3Instance = new Web3(window.ethereum);
-  //       try {
-  //         await window.ethereum.enable();
-  //         setWeb3(web3Instance);
+  useEffect(() => {
+    const init = async () => {
+      if (window.ethereum) {
+        const web3Instance = new Web3(window.ethereum);
+        try {
+          await window.ethereum.enable();
+          setWeb3(web3Instance);
 
-  //         const fetchedAccounts = await web3Instance.eth.getAccounts();
-  //         setAccounts(fetchedAccounts);
-  //       } catch (error) {
-  //         console.error("User denied access to accounts.");
-  //       }
-  //     } else {
-  //       console.log("Please install MetaMask extension");
-  //     }
-  //   };
+          const fetchedAccounts = await web3Instance.eth.getAccounts();
+          setAccounts(fetchedAccounts);
+        } catch (error) {
+          console.error("User denied access to accounts.");
+        }
+      } else {
+        console.log("Please install MetaMask extension");
+      }
+    };
 
-  //   init();
-  // }, []);
+    init();
+  }, []);
  
   return (
  
@@ -124,6 +127,12 @@ const BrowseRouter = () => {
          {/* For any invalid path */}
        <Route path="*" element={<NotFound />}></Route>
      
+       
+      {/* For Nearby Hospitals and Clinic */}
+      <Route path="/patient/:hhNumber/near-by-hospital" element={<NearByHospital />}></Route>
+      <Route path="/patient/:hhNumber/near-by-clinic" element={<NearByClinic />}></Route>
+
+
       </Routes>
       </Layout>
         {/* This is Footer */}

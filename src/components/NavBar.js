@@ -8,26 +8,27 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bg-black text-white h-[100px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-teal-800 text-white h-[80px]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col sm:flex-row items-center justify-between py-4 sm:py-0">
           {/* Logo */}
-          <div className="shrink-0">
+          {/* <div className="shrink-0">
             <img
               className="h-16 w-auto my-[17px]"
               src={logo}
               alt="Logo"
               onClick={() => navigate("/")}
             />
-          </div>
+          </div> */}
 
           {/* Title */}
           <div className="mt-4 sm:mt-0 sm:ml-10 text-center">
             <span
-              className="text-2xl sm:text-3xl lg:text-4xl font-semibold cursor-pointer"
+              className="text-2xl sm:text-2xl lg:text-2xl font-bold cursor-pointer "
               onClick={() => navigate("/")}
+             
             >
-              Decentralized Health Data
+              Medi<span className="text-teal-400">Trust</span>
             </span>
           </div>
 

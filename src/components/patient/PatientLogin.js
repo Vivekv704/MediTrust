@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Web3 from "web3";
-import PatientRegistration from "../../build/contracts/PatientRegistration.json";
 import { useNavigate } from "react-router-dom";
 import "../../CSS/DoctorLoginPage.css";
 import NavBar from "../NavBar";
+import axios from 'axios';
 
 const PatientLogin = () => {
   const navigate = useNavigate();
@@ -25,46 +24,38 @@ const PatientLogin = () => {
     }
   };
 
-  const handleCheckRegistration = async () => {
+  // API Call
+  const handleLogin = async () => {
+    // Input validation
+    if (!hhNumber || !password) {
+      alert("Please enter both HH Number and Password.");
+      return;
+    }
+   let role = 'patient';
     try {
-      const web3 = new Web3(window.ethereum);
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = PatientRegistration.networks[networkId];
-      const contract = new web3.eth.Contract(
-        PatientRegistration.abi,
-        deployedNetwork && deployedNetwork.address
-      );
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        hhNumber,
+        password,
+        role,
+      });
+  
 
-      const isRegisteredResult = await contract.methods
-        .isRegisteredPatient(hhNumber)
-        .call();
-      setIsRegistered(isRegisteredResult);
-
-      if (isRegisteredResult) {
-        const isValidPassword = await contract.methods
-          .validatePassword(hhNumber, password)
-          .call();
-
-        if (isValidPassword) {
-          const doctor = await contract.methods
-            .getPatientDetails(hhNumber)
-            .call();
-          setPatientDetails(doctor);
-          navigate("/patient/" + hhNumber);
-        } else {
-          alert("Incorrect password");
-        }
-      } else {
-        alert("Patient not registered");
-      }
+      alert(response.data.message);
+      
+  
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("patient", JSON.stringify(response.data.patient));
+      
+      navigate("/patient-dashboard");
     } catch (error) {
-      console.error("Error checking registration:", error);
-      alert("An error occurred while checking registration.");
+      console.error("Login failed:", error.response?.data?.message || error.message);
+      alert(error.response?.data?.message || "Invalid HH Number or Password.");
     }
   };
+  
 
   const cancelOperation = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -105,7 +96,7 @@ const PatientLogin = () => {
           </div>
           <div className="space-x-4 text-center mt-6">
           <button
-            onClick={handleCheckRegistration}
+            onClick={handleLogin}
             className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
           >
             Login

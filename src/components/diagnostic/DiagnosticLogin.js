@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Web3 from "web3";
-import DiagnosticRegistration from "../../build/contracts/DiagnosticRegistration.json";
 import { useNavigate } from "react-router-dom";
-import '../../CSS/DoctorLoginPage.css'
+import axios from "axios";
+import "../../CSS/DoctorLoginPage.css";
 import NavBar from "../NavBar";
 
 const DiagnosticLogin = () => {
@@ -10,13 +9,12 @@ const DiagnosticLogin = () => {
   const [hhNumberError, sethhNumberError] = useState("");
   const [hhNumber, sethhNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [diagnosticDetails, setDiagnosticDetails] = useState(null);
 
+  // Handle HH Number Change
   const handlehhNumberChange = (e) => {
     const inputhhNumber = e.target.value;
-    const phoneRegex = /^\d{6}$/;
-    if (phoneRegex.test(inputhhNumber)) {
+    const hhRegex = /^\d{6}$/;
+    if (hhRegex.test(inputhhNumber)) {
       sethhNumber(inputhhNumber);
       sethhNumberError("");
     } else {
@@ -25,46 +23,37 @@ const DiagnosticLogin = () => {
     }
   };
 
-  const handleCheckRegistration = async () => {
+  // Handle Login Submission
+  const handleLogin = async () => {
+    if (!hhNumber || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    let role = 'hospital'
     try {
-      const web3 = new Web3(window.ethereum);
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = DiagnosticRegistration.networks[networkId];
-      const contract = new web3.eth.Contract(
-        DiagnosticRegistration.abi,
-        deployedNetwork && deployedNetwork.address
-      );
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        hhNumber,
+        password,
+        role
+      });
 
-      const isRegisteredResult = await contract.methods
-        .isRegisteredDiagnostic(hhNumber)
-        .call();
-      setIsRegistered(isRegisteredResult);
-
-      if (isRegisteredResult) {
-        const isValidPassword = await contract.methods
-          .validatePassword(hhNumber, password)
-          .call();
-
-        if (isValidPassword) {
-          const diagnostic = await contract.methods
-            .getDiagnosticDetails(hhNumber)
-            .call();
-          setDiagnosticDetails(diagnostic);
-          navigate("/diagnostic/" + hhNumber);
-        } else {
-          alert("Incorrect password");
-        }
-      } else {
-        alert("Diagnostic not registered");
+      if (response.status === 200) {
+        alert("Login successful!");
+        navigate(`/diagnostic/${hhNumber}`);
       }
     } catch (error) {
-      console.error("Error checking registration:", error);
-      alert("An error occurred while checking registration.");
+      if (error.response) {
+        alert(error.response.data.message || "Login failed. Please try again.");
+      } else {
+        alert("An error occurred. Please try again later.");
+      }
+      console.error("Error during login:", error);
     }
   };
 
+  // Cancel Operation
   const cancelOperation = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -73,6 +62,8 @@ const DiagnosticLogin = () => {
       <div className="bg-gradient-to-b from-black to-gray-800 min-h-screen flex flex-col justify-center items-center p-4 font-mono text-white">
         <div className="w-full max-w-4xl bg-gray-900 p-20 rounded-lg shadow-lg">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">Diagnostic Login</h2>
+
+          {/* HH Number Input */}
           <div className="mb-4">
             <label className="block font-bold text-white" htmlFor="hhNumber">
               HH Number
@@ -82,16 +73,19 @@ const DiagnosticLogin = () => {
               name="hhNumber"
               type="text"
               required
-              className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover-bg-gray-800 transition duration-200 ${hhNumberError && "border-red-500"}`}
               placeholder="HH Number"
               value={hhNumber}
               onChange={handlehhNumberChange}
+              className={`mt-2 p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200 ${
+                hhNumberError && "border-red-500"
+              }`}
             />
             {hhNumberError && (
               <p className="text-red-500 text-sm mt-1">{hhNumberError}</p>
             )}
           </div>
 
+          {/* Password Input */}
           <div className="flex flex-col w-full mb-4">
             <label className="mb-2 font-bold">Password</label>
             <input
@@ -99,21 +93,23 @@ const DiagnosticLogin = () => {
               placeholder="Enter your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200"
               required
+              className="p-2 w-full text-white bg-gray-700 border border-gray-600 rounded-md hover:bg-gray-800 transition duration-200"
             />
           </div>
+
+          {/* Action Buttons */}
           <div className="space-x-4 text-center mt-6">
-          <button
-            onClick={handleCheckRegistration}
-            className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
-          >
-            Login
+            <button
+              onClick={handleLogin}
+              className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
+            >
+              Login
             </button>
             <button
               onClick={cancelOperation}
               className="px-6 py-3 bg-teal-500 text-white font-bold text-lg rounded-lg cursor-pointer transition-transform transition-colors duration-300 ease-in hover:bg-teal-600 active:bg-teal-700"
-              >
+            >
               Close
             </button>
           </div>

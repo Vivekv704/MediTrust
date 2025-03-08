@@ -3,7 +3,6 @@ const Layout = ({ children }) => {
 
     return (
         <div className='text-white'>
-            {/* <p>DHE</p> */}
             <main>{children}</main>
         </div>
     )
